@@ -1,4 +1,5 @@
 const { MongoClient } = require('mongodb');
+const mongoose = require('mongoose');
 
 class Database {
   constructor() {
@@ -9,6 +10,15 @@ class Database {
 
   async connect() {
     try {
+      mongoose.connect('mongodb://localhost:27017/myblog', {
+        useNewUrlParser: true,
+        useUnifiedTopology: true,
+      });
+      const db = mongoose.connection;
+      db.on('error', console.error.bind(console, 'MongoDB connection error:'));
+      db.once('open', () => {
+        console.log('Connected to the database');
+      });
       await this.client.connect();
       console.log('Connected to MongoDB');
       this.db = this.client.db(this.dbName);

@@ -15,8 +15,13 @@ exports.getBlogList = async (currentPage, pageSize) => {
 
   // 获取分页数据
   const blogs = await collection.find({}).skip(skip).limit(pageSize).toArray();
+  // 获取总条数
+  const total = await collection.countDocuments();
 
-  return blogs;
+  return {
+    blogs,
+    total
+  };
 };
 
 // 获取博客详情

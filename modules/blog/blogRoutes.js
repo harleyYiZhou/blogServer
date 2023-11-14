@@ -7,7 +7,7 @@ const blogController = require("./blogController");
 // 获取博客列表
 router.get("/", async (req, res) => {
   const { currentPage, pageSize } = req.query;
-  const blogs = await blogController.getBlogList(
+  const data = await blogController.getBlogList(
     parseInt(currentPage),
     parseInt(pageSize)
   );
@@ -16,8 +16,8 @@ router.get("/", async (req, res) => {
     data: {
       currentPage: parseInt(currentPage),
       pageSize: parseInt(pageSize),
-      list: blogs,
-      total: blogs.length,
+      list: data.blogs,
+      total: data.total,
     },
   };
   res.json(response);
